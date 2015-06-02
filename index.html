@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <title>Tarih Analiz Test</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.1.0/vis.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.1.0/vis.min.css" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        #mynetwork {
+            width: 100%;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+    </style>
+<body>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Tarih Analiz Sitesinin Kavramsal Tasarımı</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <p>Vertexes</p>
+            <ul>
+                <li>Kişi</li>
+                <li>Tarih</li>
+                <li>Kurum</li>
+                <li>Olay</li>
+                <li>Görev</li>
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <p>Edges</p>
+            <ul>
+                <li>Tarih</li>
+                <li>Süre: Başlangıç</li>
+                <li>Süre: Bitiş</li>
+                <li>Tetikler (Sebep ?)</li>
+                <li>Baş Aktör</li>
+                <li>Paydaşlar</li>
+                <li>Destekleyen</li>
+                <li>Karşı Çıkan</li>
+                <li>Benzer</li>
+                <li>..dir (is a)</li>
+                <li>Alt Birim</li>
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <p>Bu ilk kavramsal tasarım gösterdi ki, üçlü / dörtlü yapı yerine özellik bazlı bir graph db kullanılması
+                modeli basitleştirecek gibi.
+            </p>
+            <p>{tip: 'kurum', data: 'ordu'}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div id="mynetwork"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    // create an array with nodes
+    var nodes = new vis.DataSet([
+        {id: 1, label: '12 Eylül Darbesi'},
+        {id: 2, label: '12.09.1980'},
+        {id: 3, label: 'S. Demirel'},
+        {id: 4, label: 'K. Evren'},
+        {id: 5, label: 'Ordu'},
+        {id: 6, label: 'Kurum'},
+        {id: 7, label: 'Başbakan'},
+        {id: 8, label: 'Kişi'},
+        {id: 9, label: 'Görev'},
+        {id: 10, label: 'GK Başkanı'}
+
+    ]);
+
+    // create an array with edges
+    var edges = new vis.DataSet([
+        {from: 1, to: 2, label:"tarih", arrows: "from"},
+        {from: 1, to: 3, label: "paydaş", arrows:"from"},
+        {from: 1, to: 3, label: "karşı çıkan", arrows:"from"},
+        {from: 1, to: 4, label: "Baş Aktör", arrows: "from"},
+        {from: 1, to: 5, label: "Baş Aktör", arrows: "from"},
+        {from: 5, to: 6, label:"..dir", arrows: 'from'},
+        {from: 7, to: 3, label:"..dir", arrows: "to"},
+        {from: 8, to: 3, label:'..dir', arrows: "to"},
+        {from: 8, to: 4, label:'..dir', arrows: "to"},
+        {from: 9, to: 7, label:'..dir', arrows: "to"},
+        {from: 4, to: 10, label:'..dir', arrows: "from"},
+        {from: 9, to: 10, label:'..dir', arrows: "to"},
+        {from: 5, to: 10, label:'Alt Birim', arrows: "to"}
+
+    ]);
+
+    // create a network
+    var container = document.getElementById('mynetwork');
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+    var options = {};
+    var network = new vis.Network(container, data, options);
+</script>
+</body>
+</html>
